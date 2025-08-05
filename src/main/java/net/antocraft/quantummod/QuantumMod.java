@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 @Mod(QuantumMod.MOD_ID)
 public class QuantumMod {
     public static final String MOD_ID = "quantummod";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public QuantumMod(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
