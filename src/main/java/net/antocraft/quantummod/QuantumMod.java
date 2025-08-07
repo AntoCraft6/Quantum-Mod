@@ -1,6 +1,11 @@
 package net.antocraft.quantummod;
 
 import com.mojang.logging.LogUtils;
+import net.antocraft.quantummod.machines.QuantumMachineEntry;
+import net.antocraft.quantummod.recipe.Recipes;
+import net.antocraft.quantummod.refined.RefinedOverlayEntry;
+import net.antocraft.quantummod.screen.QuantumMachineMenuEntry;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -19,15 +24,18 @@ public class QuantumMod {
     public static final String MOD_ID = "quantummod";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public QuantumMod(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
+    public QuantumMod() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        QuantumMachineEntry.register(modEventBus);
+        RefinedOverlayEntry.register(modEventBus);
+        QuantumMachineMenuEntry.register(modEventBus);
+        Recipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
-
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -35,7 +43,11 @@ public class QuantumMod {
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_1);
+            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_2);
+            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_3);
+        }
     }
 
     @SubscribeEvent
