@@ -8,7 +8,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 #updateJSONURL="https://change.me.example.invalid/updates.json" //TODO
 displayURL="https://github.com/AntoCraft6/Quantum-Mod/"
-#logoFile="examplemod.png" //TODO
+logoFile="quantum_machinery.png"
 authors="${mod_authors}"
 description='''${mod_description}'''
 [[dependencies.${mod_id}]]
