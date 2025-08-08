@@ -26,7 +26,7 @@ public class BlockState extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         for (int tier = 0; tier < 3; tier++) {
-            simpleBlockWithItem(getQuantumMachine(tier), new ModelFile.UncheckedModelFile(modLoc("block/quantum_machine_" + (tier + 1))));
+            simpleBlockWithItem(getQuantumMachine(tier), new ModelFile.UncheckedModelFile(modLoc("block/quantum_machine_" + (tier++))));
         }
 
 //        for (RefinedOverlay value : RefinedOverlay.values()) { //TODO
