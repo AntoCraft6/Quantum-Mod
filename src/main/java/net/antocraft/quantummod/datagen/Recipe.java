@@ -1,5 +1,5 @@
 package net.antocraft.quantummod.datagen;
 
-public class ModItemTagGenerator {
+public class Recipe {
     //TODO
 }

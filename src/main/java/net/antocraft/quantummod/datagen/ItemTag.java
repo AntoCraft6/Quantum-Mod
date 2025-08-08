@@ -1,5 +1,5 @@
 package net.antocraft.quantummod.datagen;
 
-public class ModRecipeProvider {
+public class ItemTag {
     //TODO
 }

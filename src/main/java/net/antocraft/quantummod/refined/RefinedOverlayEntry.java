@@ -3,6 +3,7 @@ package net.antocraft.quantummod.refined;
 import net.antocraft.quantummod.QuantumMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,21 +15,24 @@ import java.util.Locale;
 
 public class RefinedOverlayEntry {
     public static final DeferredRegister<Item> REFINED_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, QuantumMod.MOD_ID);
+    public static final DeferredRegister<Block> REFINED_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, QuantumMod.MOD_ID);
 
     public final ResourceLocation parent;
-    public final RegistryObject<Item> r1;
-    public final RegistryObject<Item> r2;
-    public final RegistryObject<Item> r3;
-    public final List<RegistryObject<Item>> rall;
+
+    public final RegistryObject<Item> i1;
+    public final RegistryObject<Item> i2;
+    public final RegistryObject<Item> i3;
+    public final List<RegistryObject<Item>> iall;
 
     public RefinedOverlayEntry(ResourceLocation parent, @Nullable String registryOverride) {
         this.parent = parent;
         String path = registryOverride == null ? parent.getPath() : registryOverride;
 
-        r1 = item(path, 1);
-        r2 = item(path, 2);
-        r3 = item(path, 3);
-        rall = List.of(r1, r2, r3);
+        i1 = item(path, 1);
+        i2 = item(path, 2);
+        i3 = item(path, 3);
+        iall = List.of(i1, i2, i3);
+
     }
 
     public static RegistryObject<Item> item(String path, int tier) {
@@ -43,5 +47,6 @@ public class RefinedOverlayEntry {
         RefinedOverlay.init();
 
         REFINED_ITEMS.register(modEventBus);
+// TODO        REFINED_BLOCKS.register(modEventBus);
     }
 }
