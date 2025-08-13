@@ -11,29 +11,28 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public enum RefinedOverlay {
-
-    // minecraft vanilla
-    COAL(Mods.MINECRAFT, "coal"),
-    COPPER(Mods.MINECRAFT, "copper_ingot"),
-    DIAMOND(Mods.MINECRAFT, "diamond"),
-    EMERALD(Mods.MINECRAFT, "emerald"),
-    GOLD(Mods.MINECRAFT, "gold_ingot"),
-    IRON(Mods.MINECRAFT, "iron_ingot"),
-    LAPIS(Mods.MINECRAFT, "lapis"),
-    NETHERITE(Mods.MINECRAFT, "netherite_ingot"),
-    QUARTZ(Mods.MINECRAFT, "quartz"),
-    REDSTONE(Mods.MINECRAFT, "redstone");
+//TODO type="block" giving error registries
+    COAL(Mods.MINECRAFT, "item", "coal"),
+    DIAMOND(Mods.MINECRAFT, "item", "diamond"),
+    EMERALD(Mods.MINECRAFT, "item", "emerald"),
+    LAPIS(Mods.MINECRAFT, "item", "lapis"), //tag: lapis_lazuli ???
+    QUARTZ(Mods.MINECRAFT, "item", "quartz"),
+    REDSTONE(Mods.MINECRAFT, "item", "redstone"),
+    COPPER(Mods.MINECRAFT, "item", "copper"), //missing nugget
+    GOLD(Mods.MINECRAFT, "item", "gold"),
+    IRON(Mods.MINECRAFT, "item", "iron"),
+    NETHERITE(Mods.MINECRAFT, "item", "netherite"); //missing nugget
 
     public final Mods mod;
     public final RefinedOverlayEntry over;
 
-    RefinedOverlay(Mods mod, String item) {
-        this(mod, item, null);
+    RefinedOverlay(Mods mod, String type, String name) {
+        this(mod, type, name, null);
     }
 
-    RefinedOverlay(Mods mod, String item, @Nullable String override) {
+    RefinedOverlay(Mods mod, String type, String name, @Nullable String override) {
         this.mod = mod;
-        this.over = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), item), override);
+        this.over = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name), type, override);
     }
 
     public static void init() {
