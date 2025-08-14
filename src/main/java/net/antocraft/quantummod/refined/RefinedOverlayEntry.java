@@ -37,15 +37,17 @@ public class RefinedOverlayEntry {
     public RegistryObject<BlockItem> bi3;
     public List<RegistryObject<BlockItem>> biall;
 
-    public RefinedOverlayEntry(ResourceLocation parent, @Nullable String registryOverride) {
+    public RefinedOverlayEntry(ResourceLocation parent, String type, @Nullable String registryOverride) {
         this.parent = parent;
         String path = registryOverride == null ? parent.getPath() : registryOverride;
 
+        if (type.equals("item")) {
             i1 = item(path, 1);
             i2 = item(path, 2);
             i3 = item(path, 3);
             iall = List.of(i1, i2, i3);
-
+        }
+        if (type.equals("block")) {
             b1 = block(path, 1);
             b2 = block(path, 2);
             b3 = block(path, 3);
@@ -54,24 +56,25 @@ public class RefinedOverlayEntry {
             bi2 = blockItem(b2);
             bi3 = blockItem(b3);
             biall = List.of(bi1, bi2, bi3);
+        }
     }
 
     private static final BlockBehaviour.Properties defProp = BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(1.0F);
 
     public RegistryObject<Item> item(String path, int tier) {
-        return REFINED_ITEMS.register(generateName(path, tier, ""), () -> new Item(new Item.Properties()));
+        return REFINED_ITEMS.register(generateName(path, tier), () -> new Item(new Item.Properties()));
     }
 
     public RegistryObject<Block> block(String path, int tier) {
-        return REFINED_BLOCKS.register(generateName(path, tier, "_block"), () -> new Block(defProp));
+        return REFINED_BLOCKS.register(generateName(path, tier), () -> new Block(defProp));
     }
 
     private RegistryObject<BlockItem> blockItem(RegistryObject<Block> block) {
         return REFINED_ITEMS.register(block.getKey().location().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private static String generateName(String path, int tier, String type) {
-        return String.format(Locale.ROOT, "%s%s_%d", path, type, tier);
+    private static String generateName(String path, int tier) {
+        return String.format(Locale.ROOT, "%s_%d", path, tier);
     }
 
     public static void register(IEventBus modEventBus) {

@@ -13,24 +13,24 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
 
-public class QuantumMachineMenu extends AbstractContainerMenu {
+public class QuantumMachineMenu1 extends AbstractContainerMenu {
     public final QuantumMachineBlockEntity1 blockEntity;
     private final Level level;
     public final ContainerData data;
 
-    public QuantumMachineMenu(int containerId, Inventory inv, FriendlyByteBuf extraData) {
+    public QuantumMachineMenu1(int containerId, Inventory inv, FriendlyByteBuf extraData) {
         this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public QuantumMachineMenu(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(QuantumMachineMenuEntry.QUANTUM_MACHINE_MENU.get(), containerId);
+    public QuantumMachineMenu1(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(QuantumMachineMenuEntry.QUANTUM_MACHINE_MENU_1.get(), containerId);
         checkContainerSize(inv, 2);
         blockEntity = ((QuantumMachineBlockEntity1) entity);
         this.level = inv.player.level();
         this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11)); //TODO remove interaction with both slot
             this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
         });
 
@@ -50,9 +50,7 @@ public class QuantumMachineMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
-        Slot sourceSlot = slots.get(index);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;
+    public ItemStack quickMoveStack(Player playerIn, int index) { //TODO no player inv
         return null;
     }
 

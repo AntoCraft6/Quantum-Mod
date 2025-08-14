@@ -24,7 +24,8 @@ public enum RefinedOverlay {
     NETHERITE(Mods.MINECRAFT, "netherite");
 
     public final Mods mod;
-    public final RefinedOverlayEntry over;
+    public final RefinedOverlayEntry overItem;
+    public final RefinedOverlayEntry overBlock;
 
     RefinedOverlay(Mods mod, String name) {
         this(mod, name, null);
@@ -32,7 +33,8 @@ public enum RefinedOverlay {
 
     RefinedOverlay(Mods mod, String name, @Nullable String override) {
         this.mod = mod;
-        this.over = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name), override);
+        this.overItem = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name), "item", override);
+        this.overBlock = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name+"_block"), "block", override);
     }
 
     public static void init() {

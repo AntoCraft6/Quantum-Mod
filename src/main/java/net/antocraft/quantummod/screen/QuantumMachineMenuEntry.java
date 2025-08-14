@@ -14,7 +14,9 @@ public class QuantumMachineMenuEntry {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, QuantumMod.MOD_ID);
 
 
-    public static final RegistryObject<MenuType<QuantumMachineMenu>> QUANTUM_MACHINE_MENU = registerMenuType("quantum_machine", QuantumMachineMenu::new);
+    public static final RegistryObject<MenuType<QuantumMachineMenu1>> QUANTUM_MACHINE_MENU_1 = registerMenuType("quantum_machine_1", QuantumMachineMenu1::new);
+    public static final RegistryObject<MenuType<QuantumMachineMenu2>> QUANTUM_MACHINE_MENU_2 = registerMenuType("quantum_machine_2", QuantumMachineMenu2::new);
+    public static final RegistryObject<MenuType<QuantumMachineMenu3>> QUANTUM_MACHINE_MENU_3 = registerMenuType("quantum_machine_3", QuantumMachineMenu3::new);
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

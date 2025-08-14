@@ -1,7 +1,7 @@
 package net.antocraft.quantummod.machines;
 
 import net.antocraft.quantummod.recipe.QuantumMachineRecipe;
-import net.antocraft.quantummod.screen.QuantumMachineMenu;
+import net.antocraft.quantummod.screen.QuantumMachineMenu3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -124,7 +124,7 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-        return new QuantumMachineMenu(containerId, playerInventory, this, this.data);
+        return new QuantumMachineMenu3(containerId, playerInventory, this, this.data);
     }
 
     @Override

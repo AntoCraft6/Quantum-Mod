@@ -1,7 +1,6 @@
 package net.antocraft.quantummod.datagen;
 
 import net.antocraft.quantummod.QuantumMod;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
