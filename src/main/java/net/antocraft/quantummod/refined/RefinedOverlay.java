@@ -4,7 +4,6 @@ import net.antocraft.quantummod.QuantumMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -12,29 +11,34 @@ import java.util.stream.Collectors;
 
 public enum RefinedOverlay {
 
-    COAL(Mods.MINECRAFT, "coal"),
-    DIAMOND(Mods.MINECRAFT, "diamond"),
-    EMERALD(Mods.MINECRAFT, "emerald"),
-    LAPIS(Mods.MINECRAFT, "lapis"),
-    QUARTZ(Mods.MINECRAFT, "quartz"),
-    REDSTONE(Mods.MINECRAFT, "redstone"),
-    COPPER(Mods.MINECRAFT, "copper"),
-    GOLD(Mods.MINECRAFT, "gold"),
-    IRON(Mods.MINECRAFT, "iron"),
-    NETHERITE(Mods.MINECRAFT, "netherite");
+    //
+    COAL(Mods.MINECRAFT, "coal", "gem"),
+    DIAMOND(Mods.MINECRAFT, "diamond", "gem"),
+    EMERALD(Mods.MINECRAFT, "emerald", "gem"),
+    QUARTZ(Mods.MINECRAFT, "quartz", "gem"),
+    REDSTONE(Mods.MINECRAFT, "redstone", "gem"),
+    LAPIS(Mods.MINECRAFT, "lapis", "gem"),
+
+    // _ingot
+    COPPER(Mods.MINECRAFT, "copper", "mineral"),
+    GOLD(Mods.MINECRAFT, "gold", "mineral"),
+    IRON(Mods.MINECRAFT, "iron", "mineral"),
+    NETHERITE(Mods.MINECRAFT, "netherite", "mineral");
 
     public final Mods mod;
     public final RefinedOverlayEntry overItem;
     public final RefinedOverlayEntry overBlock;
 
-    RefinedOverlay(Mods mod, String name) {
-        this(mod, name, null);
-    }
-
-    RefinedOverlay(Mods mod, String name, @Nullable String override) {
+    RefinedOverlay(Mods mod, String name, String type) {
         this.mod = mod;
-        this.overItem = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name), "item", override);
-        this.overBlock = new RefinedOverlayEntry(ResourceLocation.fromNamespaceAndPath(mod.toString(), name+"_block"), "block", override);
+        this.overBlock = new RefinedOverlayEntry(new ResourceLocation(mod.toString(), name+"_block"), "block");
+        if (type.equals("mineral")) {
+            name += "_ingot";
+        }
+        if (name.equals("lapis")) {
+            name += "_lazuli";
+        }
+        this.overItem = new RefinedOverlayEntry(new ResourceLocation(mod.toString(), name), "item");
     }
 
     public static void init() {

@@ -20,7 +20,6 @@ public class QuantumMachineScreen1 extends AbstractContainerScreen<QuantumMachin
     protected void init() {
         super.init();
         this.inventoryLabelY = 10000;
-        this.titleLabelY = 10000;
     }
 
     @Override

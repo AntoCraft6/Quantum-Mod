@@ -1,0 +1,11 @@
+{
+  "type" : "quantummod:quantum_process_2",
+  "ingredients" : [
+    {
+      "item" : "quantummod:coal_1"
+    }
+  ],
+  "output" : {
+    "item" : "quantummod:coal_2"
+  }
+}

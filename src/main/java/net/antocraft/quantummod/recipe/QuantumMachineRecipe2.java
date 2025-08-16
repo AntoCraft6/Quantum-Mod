@@ -14,12 +14,12 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class QuantumMachineRecipe implements Recipe<SimpleContainer> {
+public class QuantumMachineRecipe2 implements Recipe<SimpleContainer> {
     private final NonNullList<Ingredient> inputItems;
     private final ItemStack output;
     private final ResourceLocation id;
 
-    public QuantumMachineRecipe(NonNullList<Ingredient> inputItems, ItemStack output, ResourceLocation id) {
+    public QuantumMachineRecipe2(NonNullList<Ingredient> inputItems, ItemStack output, ResourceLocation id) {
         this.inputItems = inputItems;
         this.output = output;
         this.id = id;
@@ -68,17 +68,17 @@ public class QuantumMachineRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<QuantumMachineRecipe> {
+    public static class Type implements RecipeType<QuantumMachineRecipe2> {
         public static final Type INSTANCE = new Type();
-        public static final String ID = "quantum_process";
+        public static final String ID = "quantum_process_2";
     }
 
-    public static class Serializer implements RecipeSerializer<QuantumMachineRecipe> {
+    public static class Serializer implements RecipeSerializer<QuantumMachineRecipe2> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(QuantumMod.MOD_ID, "quantum_process");
+        public static final ResourceLocation ID = new ResourceLocation(QuantumMod.MOD_ID, "quantum_process_2");
 
         @Override
-        public QuantumMachineRecipe fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
+        public QuantumMachineRecipe2 fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(serializedRecipe, "output"));
 
             JsonArray ingredients = GsonHelper.getAsJsonArray(serializedRecipe, "ingredients");
@@ -88,11 +88,11 @@ public class QuantumMachineRecipe implements Recipe<SimpleContainer> {
                 inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
 
-            return new QuantumMachineRecipe(inputs, output, recipeId);
+            return new QuantumMachineRecipe2(inputs, output, recipeId);
         }
 
         @Override
-        public @Nullable QuantumMachineRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public @Nullable QuantumMachineRecipe2 fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
 
             for (int i = 0; i < inputs.size(); i++) {
@@ -100,11 +100,11 @@ public class QuantumMachineRecipe implements Recipe<SimpleContainer> {
             }
 
             ItemStack output = buffer.readItem();
-            return new QuantumMachineRecipe(inputs, output, recipeId);
+            return new QuantumMachineRecipe2(inputs, output, recipeId);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, QuantumMachineRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, QuantumMachineRecipe2 recipe) {
             buffer.writeInt(recipe.inputItems.size());
 
             for (Ingredient ingredient : recipe.getIngredients()) {

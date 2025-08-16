@@ -10,7 +10,9 @@ import net.minecraftforge.registries.RegistryObject;
 public class Recipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, QuantumMod.MOD_ID);
 
-    public static final RegistryObject<RecipeSerializer<QuantumMachineRecipe>> QUANTUM_MACHINE_SERIALIZER = SERIALIZERS.register("quantum_process", () -> QuantumMachineRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<QuantumMachineRecipe1>> QUANTUM_MACHINE_SERIALIZER_1 = SERIALIZERS.register("quantum_process_1", () -> QuantumMachineRecipe1.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<QuantumMachineRecipe2>> QUANTUM_MACHINE_SERIALIZER_2 = SERIALIZERS.register("quantum_process_2", () -> QuantumMachineRecipe2.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<QuantumMachineRecipe3>> QUANTUM_MACHINE_SERIALIZER_3 = SERIALIZERS.register("quantum_process_3", () -> QuantumMachineRecipe3.Serializer.INSTANCE);
 
     public static void register(IEventBus modEventBus) {
         SERIALIZERS.register(modEventBus);

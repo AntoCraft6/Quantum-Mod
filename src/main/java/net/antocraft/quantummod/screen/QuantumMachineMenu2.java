@@ -49,11 +49,16 @@ public class QuantumMachineMenu2 extends AbstractContainerMenu {
         return maxProgress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 
+    private static final int NO_PLAYER_INV = 0;
+
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
         Slot sourceSlot = slots.get(index);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;
-        return null;
+        ItemStack sourceStack = sourceSlot.getItem();
+        if (!moveItemStackTo(sourceStack, NO_PLAYER_INV, NO_PLAYER_INV, false)) {
+            return ItemStack.EMPTY;
+        }
+        return sourceStack;
     }
 
     @Override

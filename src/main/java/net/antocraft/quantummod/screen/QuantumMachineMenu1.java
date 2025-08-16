@@ -30,7 +30,7 @@ public class QuantumMachineMenu1 extends AbstractContainerMenu {
         this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11)); //TODO remove interaction with both slot
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11)).allowModification(inv.player); //TODO remove interaction with both slot
             this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
         });
 
@@ -49,9 +49,16 @@ public class QuantumMachineMenu1 extends AbstractContainerMenu {
         return maxProgress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 
+    private static final int NO_PLAYER_INV = 0;
+
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) { //TODO no player inv
-        return null;
+    public ItemStack quickMoveStack(Player playerIn, int index) {
+        Slot sourceSlot = slots.get(index);
+        ItemStack sourceStack = sourceSlot.getItem();
+        if (!moveItemStackTo(sourceStack, NO_PLAYER_INV, NO_PLAYER_INV, false)) {
+            return ItemStack.EMPTY;
+        }
+        return sourceStack;
     }
 
     @Override

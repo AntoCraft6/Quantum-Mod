@@ -3,6 +3,7 @@ package net.antocraft.quantummod;
 import com.mojang.logging.LogUtils;
 import net.antocraft.quantummod.machines.QuantumMachineEntry;
 import net.antocraft.quantummod.recipe.Recipes;
+import net.antocraft.quantummod.refined.RefinedOverlay;
 import net.antocraft.quantummod.refined.RefinedOverlayEntry;
 import net.antocraft.quantummod.screen.*;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -25,29 +26,21 @@ public class QuantumMod {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public QuantumMod() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        QuantumMachineEntry.register(modEventBus);
-        RefinedOverlayEntry.register(modEventBus);
-        QuantumMachineMenuEntry.register(modEventBus);
-        Recipes.register(modEventBus);
+        QuantumMachineEntry.register(bus);
+        RefinedOverlayEntry.register(bus);
+        QuantumMachineMenuEntry.register(bus);
+        CreativeTab.register(bus);
+        Recipes.register(bus);
 
-        modEventBus.addListener(this::commonSetup);
+        bus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        modEventBus.addListener(this::addCreative);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
 
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_1);
-            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_2);
-            event.accept(QuantumMachineEntry.QUANTUM_MACHINE_3);
-        }
     }
 
     @SubscribeEvent

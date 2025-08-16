@@ -1,6 +1,6 @@
 package net.antocraft.quantummod.machines;
 
-import net.antocraft.quantummod.recipe.QuantumMachineRecipe;
+import net.antocraft.quantummod.recipe.QuantumMachineRecipe3;
 import net.antocraft.quantummod.screen.QuantumMachineMenu3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -130,7 +130,7 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
     @Override
     protected void saveAdditional(CompoundTag tag) {
         tag.put("inventory", itemHandler.serializeNBT());
-        tag.putInt("quantum_machine.progress", progress);
+        tag.putInt("quantum_machine_3.progress", progress);
 
         super.saveAdditional(tag);
     }
@@ -139,7 +139,7 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
     public void load(CompoundTag tag) {
         super.load(tag);
         itemHandler.deserializeNBT(tag.getCompound("inventory"));
-        progress = tag.getInt("quantum_machine.progress");
+        progress = tag.getInt("quantum_machine_3.progress");
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
@@ -161,7 +161,7 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
     }
 
     private void craftItem() {
-        Optional<QuantumMachineRecipe> recipe = getCurrentRecipe();
+        Optional<QuantumMachineRecipe3> recipe = getCurrentRecipe();
         ItemStack result = recipe.get().getResultItem(null);
 
         this.itemHandler.extractItem(INPUT_SLOT, 1, false);
@@ -171,7 +171,7 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
     }
 
     private boolean hasRecipe() {
-        Optional<QuantumMachineRecipe> recipe = getCurrentRecipe();
+        Optional<QuantumMachineRecipe3> recipe = getCurrentRecipe();
 
         if (recipe.isEmpty()) {
             return false;
@@ -181,13 +181,13 @@ public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvi
         return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
     }
 
-    private Optional<QuantumMachineRecipe> getCurrentRecipe() {
+    private Optional<QuantumMachineRecipe3> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
-        return this.level.getRecipeManager().getRecipeFor(QuantumMachineRecipe.Type.INSTANCE, inventory, level);
+        return this.level.getRecipeManager().getRecipeFor(QuantumMachineRecipe3.Type.INSTANCE, inventory, level);
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
