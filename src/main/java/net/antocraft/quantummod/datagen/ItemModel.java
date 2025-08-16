@@ -10,8 +10,6 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-import java.util.Set;
-
 public class ItemModel extends ItemModelProvider {
     public ItemModel(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, QuantumMod.MOD_ID, exFileHelper);

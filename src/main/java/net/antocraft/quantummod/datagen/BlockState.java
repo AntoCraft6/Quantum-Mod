@@ -3,7 +3,6 @@ package net.antocraft.quantummod.datagen;
 import net.antocraft.quantummod.QuantumMod;
 import net.antocraft.quantummod.machines.QuantumMachineEntry;
 import net.antocraft.quantummod.refined.RefinedOverlay;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

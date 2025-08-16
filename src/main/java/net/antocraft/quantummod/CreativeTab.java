@@ -2,7 +2,6 @@ package net.antocraft.quantummod;
 
 import net.antocraft.quantummod.machines.QuantumMachineEntry;
 import net.antocraft.quantummod.refined.RefinedOverlay;
-import net.antocraft.quantummod.refined.RefinedOverlayEntry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
