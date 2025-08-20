@@ -52,7 +52,7 @@ public class QuantumMachineCategory2 implements IRecipeCategory<QuantumMachineRe
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, QuantumMachineRecipe2 recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 80 ,11).addIngredients(recipe.getIngredients().get(0));
+        builder.addSlot(RecipeIngredientRole.INPUT, 80 ,11).addIngredients(recipe.getInput().get(0));
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 80 ,59).addItemStack(recipe.getResultItem(null));
     }

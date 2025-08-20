@@ -3,13 +3,13 @@ loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/AntoCraft6/Quantum-Mod/issues/"
 [[mods]]
-modId="quantummod"
-version="0.1-1.20.1"
-displayName="Quantum Machinery"
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
 #updateJSONURL="https://change.me.example.invalid/updates.json" //TODO
 displayURL="https://github.com/AntoCraft6/Quantum-Mod/"
 logoFile="quantum_machinery.png"
-authors="AntoCraft6"
+authors="${mod_authors}"
 description='''${mod_description}'''
 [[dependencies.quantummod]]
     modId="forge"

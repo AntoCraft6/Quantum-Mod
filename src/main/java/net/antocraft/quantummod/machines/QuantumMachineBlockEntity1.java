@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +45,10 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
+    private final EnergyStorage energyStorage = new EnergyStorage(100000);
 
-    private LazyOptional<IItemHandler> LazyItemHandler = LazyOptional.empty();
+    private LazyOptional<IItemHandler> LazyItemHandler = LazyOptional.of(() -> itemHandler);
+    private LazyOptional<EnergyStorage> LazyEnergyHandler = LazyOptional.of(() -> energyStorage);
 
     protected final ContainerData data;
     private int progress = 0;
@@ -57,8 +60,8 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> QuantumMachineBlockEntity1.this.progress;
-                    case 1 -> QuantumMachineBlockEntity1.this.maxProgress;
+                    case 0 -> progress;
+                    case 1 -> maxProgress;
                     default -> 0;
                 };
             }
@@ -66,8 +69,8 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> QuantumMachineBlockEntity1.this.progress = value;
-                    case 1 -> QuantumMachineBlockEntity1.this.maxProgress = value;
+                    case 0 -> progress = value;
+                    case 1 -> maxProgress = value;
                 }
             }
 
@@ -77,7 +80,6 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
             }
         };
     }
-
 
     public ItemStack getRenderStack() {
         if (itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty()) {
@@ -89,9 +91,8 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return LazyItemHandler.cast();
-        }
+        if (cap == ForgeCapabilities.ITEM_HANDLER) return LazyItemHandler.cast();
+        if (cap == ForgeCapabilities.ENERGY) return LazyEnergyHandler.cast();
 
         return super.getCapability(cap, side);
     }
@@ -100,12 +101,14 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
     public void onLoad() {
         super.onLoad();
         LazyItemHandler = LazyOptional.of(() -> itemHandler);
+        LazyEnergyHandler = LazyOptional.of(() -> energyStorage);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         LazyItemHandler.invalidate();
+        LazyEnergyHandler.invalidate();
     }
 
     public void drops() {
@@ -130,6 +133,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
     @Override
     protected void saveAdditional(CompoundTag tag) {
         tag.put("inventory", itemHandler.serializeNBT());
+        tag.put("energy", energyStorage.serializeNBT());
         tag.putInt("quantum_machine_1.progress", progress);
 
         super.saveAdditional(tag);
@@ -139,17 +143,22 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
     public void load(CompoundTag tag) {
         super.load(tag);
         itemHandler.deserializeNBT(tag.getCompound("inventory"));
+        energyStorage.deserializeNBT(tag.getCompound("energy"));
         progress = tag.getInt("quantum_machine_1.progress");
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (hasRecipe()) {
-            increaseCraftingProgress();
-            setChanged(level, pos, state);
+            if (hasEnergy()) {
+                increaseCraftingProgress();
+                setChanged(level, pos, state);
 
-            if (hasProgressFinished()) {
-                craftItem();
-                resetProgress();
+                if (hasProgressFinished()) {
+                    craftItem();
+                    resetProgress();
+                }
+            } else {
+                decreaseCraftingProgress();
             }
         } else {
             resetProgress();
@@ -163,8 +172,9 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
     private void craftItem() {
         Optional<QuantumMachineRecipe1> recipe = getCurrentRecipe();
         ItemStack result = recipe.get().getResultItem(null);
+        int inputSize = recipe.get().getInputSize();
 
-        this.itemHandler.extractItem(INPUT_SLOT, 1, false);
+        this.itemHandler.extractItem(INPUT_SLOT, inputSize, false);
 
         this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
                 this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
@@ -181,7 +191,16 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
         return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
     }
 
-    private Optional<QuantumMachineRecipe1> getCurrentRecipe() {
+    private boolean hasEnergy() {
+        Optional<QuantumMachineRecipe1> recipe = getCurrentRecipe();
+        int energy = recipe.get().getEnegy();
+
+        if (energy > 0) {
+            return energyStorage.extractEnergy(energy, true) >= energy;
+        } else return true;
+    }
+
+        private Optional<QuantumMachineRecipe1> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));
@@ -203,7 +222,15 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
     }
 
     private void increaseCraftingProgress() {
+        Optional<QuantumMachineRecipe1> recipe = getCurrentRecipe();
+        int energy = recipe.get().getEnegy();
+
         progress++;
+        energyStorage.extractEnergy(energy, false);
+    }
+
+    private void decreaseCraftingProgress() {
+        progress--;
     }
 
     @Nullable

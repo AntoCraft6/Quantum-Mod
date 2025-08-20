@@ -8,38 +8,50 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import org.jetbrains.annotations.Nullable;
 
-public class QuantumMachineRecipe1 implements Recipe<SimpleContainer> {
-    private final NonNullList<Ingredient> inputItems;
+public class QuantumMachineRecipe1 implements Recipe<Container> {
+    private final NonNullList<Ingredient> input;
+    private final int inputSize;
     private final ItemStack output;
+    private final int energy;
     private final ResourceLocation id;
 
-    public QuantumMachineRecipe1(NonNullList<Ingredient> inputItems, ItemStack output, ResourceLocation id) {
-        this.inputItems = inputItems;
+    public QuantumMachineRecipe1(NonNullList<Ingredient> input, int inputSize, ItemStack output, int energy, ResourceLocation id) {
+        this.input = input;
+        this.inputSize = inputSize;
         this.output = output;
+        this.energy = energy;
         this.id = id;
     }
 
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
+    public boolean matches(Container container, Level level) {
         if (level.isClientSide()) {
             return false;
         }
-        return inputItems.get(0).test(container.getItem(0));
+        return input.get(0).test(container.getItem(0)) && inputSize<=container.getItem(0).getCount();
+    }
+
+    public NonNullList<Ingredient> getInput() {
+        return input;
+    }
+
+    public int getInputSize() {
+        return inputSize;
+    }
+
+    public int getEnegy() {
+        return energy;
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return inputItems;
-    }
-
-    @Override
-    public ItemStack assemble(SimpleContainer container, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container container, RegistryAccess access) {
         return output.copy();
     }
 
@@ -49,7 +61,7 @@ public class QuantumMachineRecipe1 implements Recipe<SimpleContainer> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(RegistryAccess access) {
         return output.copy();
     }
 
@@ -68,6 +80,22 @@ public class QuantumMachineRecipe1 implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
+    public static ItemStack itemStackFromJson(JsonObject stackObject) {
+        return CraftingHelper.getItemStack(stackObject, true, true);
+    }
+
+    public static int intFromJson(JsonObject json, String type) {
+        int value = -1;
+        try {
+            value = GsonHelper.getAsJsonObject(json, type).getAsInt();
+        } catch (Exception ignored) {
+            if (type.equals("energy")) value = 0;
+            throw new UnsupportedOperationException();
+        } finally {
+            return value;
+        }
+    }
+
     public static class Type implements RecipeType<QuantumMachineRecipe1> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "quantum_process_1";
@@ -77,41 +105,62 @@ public class QuantumMachineRecipe1 implements Recipe<SimpleContainer> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID = new ResourceLocation(QuantumMod.MOD_ID, "quantum_process_1");
 
+
         @Override
-        public QuantumMachineRecipe1 fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(serializedRecipe, "output"));
+        public QuantumMachineRecipe1 fromJson(ResourceLocation id, JsonObject json) {
+            ItemStack output = itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
 
-            JsonArray ingredients = GsonHelper.getAsJsonArray(serializedRecipe, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
-
-            for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            JsonArray ingredients = GsonHelper.getAsJsonArray(json, "input");
+            NonNullList<Ingredient> inputs = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
+            int inputSize = 1;
+            for(int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, getIngredientStack(ingredients.get(i).getAsJsonObject()));
+                inputSize = GsonHelper.getAsInt(ingredients.get(i).getAsJsonObject(), "count");
             }
 
-            return new QuantumMachineRecipe1(inputs, output, recipeId);
+            int energy = intFromJson(json, "energy");
+
+            return new QuantumMachineRecipe1(inputs, inputSize, output, energy, id);
+        }
+
+        private Ingredient getIngredientStack(JsonObject json) {
+            Ingredient ingredient = Ingredient.fromJson(json);
+            int count = 1;
+
+            if (json.getAsJsonObject().has("count")) {
+                count = GsonHelper.getAsInt(json, "count");
+            }
+
+            ItemStack itemStack = ingredient.getItems()[0];
+            itemStack.setCount(count);
+
+            return  ingredient;
         }
 
         @Override
-        public @Nullable QuantumMachineRecipe1 fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public @Nullable QuantumMachineRecipe1 fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-
-            for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromNetwork(buffer));
-            }
+            for(int i = 0; i < inputs.size(); i++) inputs.set(i, Ingredient.fromNetwork(buffer));
 
             ItemStack output = buffer.readItem();
-            return new QuantumMachineRecipe1(inputs, output, recipeId);
+
+            int energy = buffer.readVarInt();
+
+            int inputSize = buffer.readVarInt();
+
+            return new QuantumMachineRecipe1(inputs, inputSize, output, energy, id);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buffer, QuantumMachineRecipe1 recipe) {
-            buffer.writeInt(recipe.inputItems.size());
+            buffer.writeInt(recipe.input.size());
+            for (Ingredient ingredient : recipe.getIngredients()) ingredient.toNetwork(buffer);
 
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredient.toNetwork(buffer);
-            }
+            buffer.writeItem(recipe.output);
 
-            buffer.writeItemStack(recipe.getResultItem(null), false);
+            buffer.writeVarInt(recipe.energy);
+
+            buffer.writeVarInt(recipe.inputSize);
         }
     }
 }
