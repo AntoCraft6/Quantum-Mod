@@ -1,7 +1,9 @@
 package net.antocraft.quantummod.datagen;
 
 import net.antocraft.quantummod.QuantumMod;
-import net.antocraft.quantummod.recipe.*;
+import net.antocraft.quantummod.recipe.RefinedRecipe1;
+import net.antocraft.quantummod.recipe.RefinedRecipe2;
+import net.antocraft.quantummod.recipe.RefinedRecipe3;
 import net.antocraft.quantummod.refined.RefinedOverlay;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
