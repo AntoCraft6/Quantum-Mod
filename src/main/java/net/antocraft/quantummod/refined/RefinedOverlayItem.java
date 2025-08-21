@@ -12,18 +12,11 @@ import java.util.List;
 
 
 public class RefinedOverlayItem extends Item {
-    private String tier;
+    private final int tier;
 
     public RefinedOverlayItem(Properties properties, int tier) {
         super(properties);
-        // placeholder tier name
-        if (tier==1) {
-            this.tier = "basic";
-        } else if (tier==2) {
-            this.tier = "advanced";
-        } else if (tier==3) {
-            this.tier = "ultimate";
-        }
+        this.tier = tier;
     }
 
     @Override
