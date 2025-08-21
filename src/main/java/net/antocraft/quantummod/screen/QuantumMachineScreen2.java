@@ -15,12 +15,11 @@ public class QuantumMachineScreen2 extends AbstractContainerScreen<QuantumMachin
     public QuantumMachineScreen2(QuantumMachineMenu2 menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
-    
+
     @Override
     protected void init() {
         super.init();
         this.inventoryLabelY = 10000;
-        this.titleLabelY = 10000;
     }
 
     @Override
@@ -37,7 +36,7 @@ public class QuantumMachineScreen2 extends AbstractContainerScreen<QuantumMachin
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
-        if(menu.isCrafting()) {
+        if (menu.isCrafting()) {
             guiGraphics.blit(texture, x + 85, y + 30, 176, 0, 8, menu.getScaledProgress());
         }
     }

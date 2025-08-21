@@ -38,7 +38,7 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
         if (level.isClientSide()) {
             return false;
         }
-        return input.get(0).test(container.getItem(0)) && inputSize<=container.getItem(0).getCount();
+        return input.get(0).test(container.getItem(0)) && inputSize <= container.getItem(0).getCount();
     }
 
     public NonNullList<Ingredient> getInput() {
@@ -116,7 +116,7 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
             JsonArray ingredients = GsonHelper.getAsJsonArray(json, "input");
             NonNullList<Ingredient> inputs = NonNullList.withSize(ingredients.size(), Ingredient.EMPTY);
             int inputSize = 1;
-            for(int i = 0; i < inputs.size(); i++) {
+            for (int i = 0; i < inputs.size(); i++) {
                 inputs.set(i, getIngredientStack(ingredients.get(i).getAsJsonObject()));
                 inputSize = GsonHelper.getAsInt(ingredients.get(i).getAsJsonObject(), "count");
             }
@@ -137,13 +137,13 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
             ItemStack itemStack = ingredient.getItems()[0];
             itemStack.setCount(count);
 
-            return  ingredient;
+            return ingredient;
         }
 
         @Override
         public @Nullable QuantumMachineRecipe3 fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(buffer.readInt(), Ingredient.EMPTY);
-            for(int i = 0; i < inputs.size(); i++) inputs.set(i, Ingredient.fromNetwork(buffer));
+            for (int i = 0; i < inputs.size(); i++) inputs.set(i, Ingredient.fromNetwork(buffer));
 
             ItemStack output = buffer.readItem();
 

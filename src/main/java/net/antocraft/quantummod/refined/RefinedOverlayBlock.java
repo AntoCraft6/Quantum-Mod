@@ -1,6 +1,5 @@
 package net.antocraft.quantummod.refined;
 
-import net.antocraft.quantummod.QuantumMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -21,6 +20,6 @@ public class RefinedOverlayBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip." + QuantumMod.MOD_ID + ".tier", tier));
+        tooltip.add(Component.translatable("Quantum Tier: %s", tier));
     }
 }

@@ -31,7 +31,7 @@ public enum RefinedOverlay {
 
     RefinedOverlay(Mods mod, String name, String type) {
         this.mod = mod;
-        this.overBlock = new RefinedOverlayEntry(new ResourceLocation(mod.toString(), name+"_block"), "block");
+        this.overBlock = new RefinedOverlayEntry(new ResourceLocation(mod.toString(), name + "_block"), "block");
         if (type.equals("mineral")) {
             name += "_ingot";
         }

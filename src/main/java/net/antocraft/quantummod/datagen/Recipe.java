@@ -62,28 +62,28 @@ public class Recipe extends RecipeProvider implements IConditionBuilder {
                             .unlockedBy(getHasName(parentItem), has(parentItem))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_item_1/" + ingredient)));
                 } else if (i == 1) {
-                    parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i-1).getId()).asItem();
+                    parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i - 1).getId()).asItem();
                     RefinedRecipe2.output(items.get(), 1)
                             .input(parentBlock, 8)
                             .energy(0)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_2/" + items.getId().getPath())));
 
-                    parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i-1).getId());
+                    parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i - 1).getId());
                     RefinedRecipe2.output(ingredient, 1)
                             .input(parentItem, 8)
                             .energy(0)
                             .unlockedBy(getHasName(parentItem), has(parentItem))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_item_2/" + ingredient)));
                 } else {
-                    parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i-1).getId()).asItem();
+                    parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i - 1).getId()).asItem();
                     RefinedRecipe3.output(items.get(), 1)
                             .input(parentBlock, 8)
                             .energy(0)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_3/" + items.getId().getPath())));
 
-                    parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i-1).getId());
+                    parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i - 1).getId());
                     RefinedRecipe3.output(ingredient, 1)
                             .input(parentItem, 8)
                             .energy(0)

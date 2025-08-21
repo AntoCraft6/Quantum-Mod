@@ -27,7 +27,7 @@ public class BlockState extends BlockStateProvider {
     protected void registerStatesAndModels() {
 
         for (int tier = 0; tier < 3; tier++) {
-            simpleBlockWithItem(getQuantumMachine(tier), new ModelFile.UncheckedModelFile(modLoc("block/quantum_machine_" + (tier+1))));
+            simpleBlockWithItem(getQuantumMachine(tier), new ModelFile.UncheckedModelFile(modLoc("block/quantum_machine_" + (tier + 1))));
         }
 
         for (RefinedOverlay value : RefinedOverlay.values()) {
@@ -51,14 +51,14 @@ public class BlockState extends BlockStateProvider {
                         .child("solid", models().nested().renderType("minecraft:solid").parent(defaultBlock))
                         .child("translucent", models().nested().renderType("minecraft:translucent")
                                 .parent(models().getExistingFile(new ResourceLocation("block/cube_all")))
-                                .texture("all", new ResourceLocation(QuantumMod.MOD_ID, "block/tier_" + (i+1))))
+                                .texture("all", new ResourceLocation(QuantumMod.MOD_ID, "block/tier_" + (i + 1))))
                         .end().parent(defaultBlock);
                 simpleBlockWithItem(each.get(), model);
             }
         }
     }
 
-    private static Block getQuantumMachine (int tier) {
+    private static Block getQuantumMachine(int tier) {
         List<Block> blocks = new ArrayList<>();
         QuantumMachineEntry.QUANTUM_MACHINE_BLOCK.getEntries().stream().map(Supplier::get).forEach(blocks::add);
         return blocks.get(tier);

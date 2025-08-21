@@ -19,7 +19,7 @@ public class CreativeTab {
 
     public static final RegistryObject<CreativeModeTab> MACHINERY_TAB = CREATIVE_MODE_TABS.register("machinery_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(QuantumMachineEntry.QUANTUM_MACHINE_1.get()))
-                    .title(Component.translatable("creativetab."+QuantumMod.MOD_ID+".machinery"))
+                    .title(Component.translatable("creativetab." + QuantumMod.MOD_ID + ".machinery"))
                     .displayItems((parameters, output) -> {
                         output.accept(QuantumMachineEntry.QUANTUM_MACHINE_1.get());
                         output.accept(QuantumMachineEntry.QUANTUM_MACHINE_2.get());
@@ -29,7 +29,7 @@ public class CreativeTab {
 
     public static final RegistryObject<CreativeModeTab> REFINED_TAB = CREATIVE_MODE_TABS.register("refined_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(QuantumMachineEntry.QUANTUM_MACHINE_2.get()))
-                    .title(Component.translatable("creativetab."+QuantumMod.MOD_ID+".refined"))
+                    .title(Component.translatable("creativetab." + QuantumMod.MOD_ID + ".refined"))
                     .displayItems((parameters, event) -> {
                         for (RefinedOverlay value : RefinedOverlay.values()) {
                             value.overItem.iall.stream().map(Supplier::get).map(Item::getDefaultInstance).forEach(event::accept);

@@ -200,7 +200,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
         } else return true;
     }
 
-        private Optional<QuantumMachineRecipe1> getCurrentRecipe() {
+    private Optional<QuantumMachineRecipe1> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, this.itemHandler.getStackInSlot(i));

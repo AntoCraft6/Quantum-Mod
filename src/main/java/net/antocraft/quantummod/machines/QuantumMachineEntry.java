@@ -29,7 +29,7 @@ public class QuantumMachineEntry {
         return QUANTUM_MACHINE_ITEM.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private final static BlockBehaviour.Properties QuantumMachineProperties = BlockBehaviour.Properties.of().strength(3,-1);
+    private final static BlockBehaviour.Properties QuantumMachineProperties = BlockBehaviour.Properties.of().strength(3, -1);
     public static RegistryObject<Block> QUANTUM_MACHINE_1 = registerBlock("quantum_machine_1", () -> new QuantumMachineBlock1(QuantumMachineProperties));
     public static RegistryObject<Block> QUANTUM_MACHINE_2 = registerBlock("quantum_machine_2", () -> new QuantumMachineBlock2(QuantumMachineProperties));
     public static RegistryObject<Block> QUANTUM_MACHINE_3 = registerBlock("quantum_machine_3", () -> new QuantumMachineBlock3(QuantumMachineProperties));
