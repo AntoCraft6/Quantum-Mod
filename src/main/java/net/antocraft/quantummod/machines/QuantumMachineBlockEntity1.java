@@ -34,6 +34,8 @@ import java.util.Optional;
 
 public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
+        int craft = 0;
+
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -52,7 +54,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     protected final ContainerData data;
     private int progress = 0;
-    private int maxProgress = 78;
+    private int maxProgress = 100;
 
     public QuantumMachineBlockEntity1(BlockPos pos, BlockState blockState) {
         super(QuantumMachineEntry.QUANTUM_MACHINE_BE_1.get(), pos, blockState);
@@ -62,6 +64,8 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
                 return switch (index) {
                     case 0 -> progress;
                     case 1 -> maxProgress;
+                    case 2 -> energyStorage.getEnergyStored();
+                    case 3 -> energyStorage.getMaxEnergyStored();
                     default -> 0;
                 };
             }
@@ -71,12 +75,14 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
                 switch (index) {
                     case 0 -> progress = value;
                     case 1 -> maxProgress = value;
+                    case 2 -> energyStorage.getEnergyStored();
+                    case 3 -> energyStorage.getMaxEnergyStored();
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 4;
             }
         };
     }
@@ -226,12 +232,13 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
         int energy = recipe.get().getEnegy();
 
         progress++;
-        energyStorage.extractEnergy(energy, false);
+        if (energy>0) energyStorage.extractEnergy(energy, false);
+        if (energy<0) energyStorage.receiveEnergy(-energy, false);
     }
 
     private void decreaseCraftingProgress() {
         progress--;
-    }
+    } //TODO change to failed recipe
 
     @Nullable
     @Override

@@ -12,14 +12,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-
 public class QuantumMachineMenu1 extends AbstractContainerMenu {
     public final QuantumMachineBlockEntity1 blockEntity;
     private final Level level;
     public final ContainerData data;
 
     public QuantumMachineMenu1(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
     }
 
     public QuantumMachineMenu1(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -30,8 +29,8 @@ public class QuantumMachineMenu1 extends AbstractContainerMenu {
         this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11)).allowModification(inv.player); //TODO remove interaction with both slot
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 10000, 10000));
+            this.addSlot(new SlotItemHandler(iItemHandler, 1, 10000, 10000));
         });
 
         addDataSlots(data);
@@ -47,6 +46,14 @@ public class QuantumMachineMenu1 extends AbstractContainerMenu {
         int progressArrowSize = 26;
 
         return maxProgress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    }
+
+    public int getScaledEnergy() {
+        int energy = this.data.get(2);
+        int maxEnergy = this.data.get(3);
+        int energySize = 28;
+
+        return maxEnergy != 0 ? energy * energySize / maxEnergy : 0;
     }
 
     private static final int NO_PLAYER_INV = 0;

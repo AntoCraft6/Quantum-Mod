@@ -1,6 +1,7 @@
 package net.antocraft.quantummod.recipe;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.antocraft.quantummod.QuantumMod;
 import net.minecraft.core.NonNullList;
@@ -87,18 +88,6 @@ public class QuantumMachineRecipe1 implements Recipe<Container> {
         return CraftingHelper.getItemStack(stackObject, true, true);
     }
 
-    public static int intFromJson(JsonObject json, String type) {
-        int value = -1;
-        try {
-            value = GsonHelper.getAsJsonObject(json, type).getAsInt();
-        } catch (Exception ignored) {
-            if (type.equals("energy")) value = 0;
-            throw new UnsupportedOperationException();
-        } finally {
-            return value;
-        }
-    }
-
     public static class Type implements RecipeType<QuantumMachineRecipe1> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "quantum_process_1";
@@ -121,7 +110,7 @@ public class QuantumMachineRecipe1 implements Recipe<Container> {
                 inputSize = GsonHelper.getAsInt(ingredients.get(i).getAsJsonObject(), "count");
             }
 
-            int energy = intFromJson(json, "energy");
+            int energy = GsonHelper.getAsInt(json, "energy", 0);
 
             return new QuantumMachineRecipe1(inputs, inputSize, output, energy, id);
         }

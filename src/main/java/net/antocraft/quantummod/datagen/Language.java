@@ -5,9 +5,6 @@ import net.antocraft.quantummod.refined.RefinedOverlay;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Locale;
 
 public class Language extends LanguageProvider {
     public Language(PackOutput output, String lang) {
@@ -18,7 +15,7 @@ public class Language extends LanguageProvider {
     protected void addTranslations() {
 
         this.add("creativetab." + QuantumMod.MOD_ID + ".machinery", "Quantum Machinery");
-        this.add("creativetab." + QuantumMod.MOD_ID + ".refined", "Quantum Refined Material");
+        this.add("creativetab." + QuantumMod.MOD_ID + ".refined", "Quantum Material");
 
         for (int tier = 1; tier <= 3; tier++) {
             this.add("block." + QuantumMod.MOD_ID + ".quantum_machine_" + tier, "Quantum Machine (Tier " + tier + ")");

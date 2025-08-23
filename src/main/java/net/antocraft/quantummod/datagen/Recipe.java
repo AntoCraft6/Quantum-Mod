@@ -51,7 +51,7 @@ public class Recipe extends RecipeProvider implements IConditionBuilder {
                     parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.parent).asItem();
                     RefinedRecipe1.output(items.get(), 1)
                             .input(parentBlock, 8)
-                            .energy(0)
+                            .energy(-1000)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_1/" + items.getId().getPath())));
 
