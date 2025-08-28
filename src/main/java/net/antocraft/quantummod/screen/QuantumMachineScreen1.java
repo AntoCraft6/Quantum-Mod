@@ -2,7 +2,6 @@ package net.antocraft.quantummod.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.antocraft.quantummod.QuantumMod;
-import net.antocraft.quantummod.machines.QuantumMachineBlockEntity1;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -10,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.AirBlock;
 
 public class QuantumMachineScreen1 extends AbstractContainerScreen<QuantumMachineMenu1> {
     private static final ResourceLocation texture = new ResourceLocation(QuantumMod.MOD_ID, "textures/gui/quantum_machine_1_gui.png"); //TODO this is placeholder

@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-
 public class QuantumMachineMenu2 extends AbstractContainerMenu {
     public final QuantumMachineBlockEntity2 blockEntity;
     private final Level level;
@@ -30,8 +29,8 @@ public class QuantumMachineMenu2 extends AbstractContainerMenu {
         this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 10000, 10000));
+            this.addSlot(new SlotItemHandler(iItemHandler, 1, 10000, 10000));
         });
 
         addDataSlots(data);
@@ -47,6 +46,14 @@ public class QuantumMachineMenu2 extends AbstractContainerMenu {
         int progressArrowSize = 26;
 
         return maxProgress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    }
+
+    public int getScaledEnergy() {
+        int energy = this.data.get(2);
+        int maxEnergy = this.data.get(3);
+        int energySize = 28;
+
+        return maxEnergy != 0 ? energy * energySize / maxEnergy : 0;
     }
 
     private static final int NO_PLAYER_INV = 0;
@@ -66,6 +73,4 @@ public class QuantumMachineMenu2 extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 player, QuantumMachineEntry.QUANTUM_MACHINE_2.get());
     }
-
-
 }

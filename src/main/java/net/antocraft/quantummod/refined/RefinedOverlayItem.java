@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-
 public class RefinedOverlayItem extends Item {
     private final int tier;
 

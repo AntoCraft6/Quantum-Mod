@@ -29,14 +29,14 @@ public class QuantumMachineEntry {
         return QUANTUM_MACHINE_ITEM.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    private final static BlockBehaviour.Properties QuantumMachineProperties = BlockBehaviour.Properties.of().strength(3, -1);
+    private final static BlockBehaviour.Properties QuantumMachineProperties = BlockBehaviour.Properties.of().strength(3, -1).noOcclusion();
     public static RegistryObject<Block> QUANTUM_MACHINE_1 = registerBlock("quantum_machine_1", () -> new QuantumMachineBlock1(QuantumMachineProperties));
     public static RegistryObject<Block> QUANTUM_MACHINE_2 = registerBlock("quantum_machine_2", () -> new QuantumMachineBlock2(QuantumMachineProperties));
     public static RegistryObject<Block> QUANTUM_MACHINE_3 = registerBlock("quantum_machine_3", () -> new QuantumMachineBlock3(QuantumMachineProperties));
 
-    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity1>> QUANTUM_MACHINE_BE_1 = QUANTUM_MACHINE_BE.register("quantum_machine_be_1", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity1::new, QUANTUM_MACHINE_1.get()).build(null));
-    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity2>> QUANTUM_MACHINE_BE_2 = QUANTUM_MACHINE_BE.register("quantum_machine_be_2", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity2::new, QUANTUM_MACHINE_2.get()).build(null));
-    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity3>> QUANTUM_MACHINE_BE_3 = QUANTUM_MACHINE_BE.register("quantum_machine_be_3", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity3::new, QUANTUM_MACHINE_3.get()).build(null));
+    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity1>> QUANTUM_MACHINE_BE_1 = QUANTUM_MACHINE_BE.register("quantum_machine_1", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity1::new, QUANTUM_MACHINE_1.get()).build(null));
+    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity2>> QUANTUM_MACHINE_BE_2 = QUANTUM_MACHINE_BE.register("quantum_machine_2", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity2::new, QUANTUM_MACHINE_2.get()).build(null));
+    public static final RegistryObject<BlockEntityType<QuantumMachineBlockEntity3>> QUANTUM_MACHINE_BE_3 = QUANTUM_MACHINE_BE.register("quantum_machine_3", () -> BlockEntityType.Builder.of(QuantumMachineBlockEntity3::new, QUANTUM_MACHINE_3.get()).build(null));
 
     public static void register(IEventBus modEventBus) {
         QUANTUM_MACHINE_ITEM.register(modEventBus);

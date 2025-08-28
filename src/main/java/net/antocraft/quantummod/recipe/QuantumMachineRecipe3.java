@@ -87,18 +87,6 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
         return CraftingHelper.getItemStack(stackObject, true, true);
     }
 
-    public static int intFromJson(JsonObject json, String type) {
-        int value = -1;
-        try {
-            value = GsonHelper.getAsJsonObject(json, type).getAsInt();
-        } catch (Exception ignored) {
-            if (type.equals("energy")) value = 0;
-            throw new UnsupportedOperationException();
-        } finally {
-            return value;
-        }
-    }
-
     public static class Type implements RecipeType<QuantumMachineRecipe3> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "quantum_process_3";
@@ -107,7 +95,6 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
     public static class Serializer implements RecipeSerializer<QuantumMachineRecipe3> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID = new ResourceLocation(QuantumMod.MOD_ID, "quantum_process_3");
-
 
         @Override
         public QuantumMachineRecipe3 fromJson(ResourceLocation id, JsonObject json) {
@@ -121,7 +108,7 @@ public class QuantumMachineRecipe3 implements Recipe<Container> {
                 inputSize = GsonHelper.getAsInt(ingredients.get(i).getAsJsonObject(), "count");
             }
 
-            int energy = intFromJson(json, "energy");
+            int energy = GsonHelper.getAsInt(json, "energy", 0);
 
             return new QuantumMachineRecipe3(inputs, inputSize, output, energy, id);
         }

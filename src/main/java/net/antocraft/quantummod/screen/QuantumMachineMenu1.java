@@ -73,6 +73,4 @@ public class QuantumMachineMenu1 extends AbstractContainerMenu {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 player, QuantumMachineEntry.QUANTUM_MACHINE_1.get());
     }
-
-
 }

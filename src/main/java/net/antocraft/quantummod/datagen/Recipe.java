@@ -24,6 +24,7 @@ public class Recipe extends RecipeProvider implements IConditionBuilder {
     protected void buildRecipes(Consumer<FinishedRecipe> writer) {
         for (RefinedOverlay value : RefinedOverlay.values()) {
             int i = 0;
+            int energy = 1000; //TODO make configurable
             Item ingredient = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i).getId());
             if (ingredient == null || ingredient == Items.AIR) {
                 QuantumMod.LOGGER.error("missing block during datagen: {}", ingredient);
@@ -51,42 +52,44 @@ public class Recipe extends RecipeProvider implements IConditionBuilder {
                     parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.parent).asItem();
                     RefinedRecipe1.output(items.get(), 1)
                             .input(parentBlock, 8)
-                            .energy(-1000)
+                            .energy(energy*8)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_1/" + items.getId().getPath())));
 
                     parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.parent);
                     RefinedRecipe1.output(ingredient, 1)
                             .input(parentItem, 8)
-                            .energy(0)
+                            .energy(energy)
                             .unlockedBy(getHasName(parentItem), has(parentItem))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_item_1/" + ingredient)));
                 } else if (i == 1) {
+                    energy *= 10^1; //TODO make configurable
                     parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i - 1).getId()).asItem();
                     RefinedRecipe2.output(items.get(), 1)
                             .input(parentBlock, 8)
-                            .energy(0)
+                            .energy(energy*8)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_2/" + items.getId().getPath())));
 
                     parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i - 1).getId());
                     RefinedRecipe2.output(ingredient, 1)
                             .input(parentItem, 8)
-                            .energy(0)
+                            .energy(energy)
                             .unlockedBy(getHasName(parentItem), has(parentItem))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_item_2/" + ingredient)));
                 } else {
+                    energy *= 10^2; //TODO make configurable
                     parentBlock = ForgeRegistries.BLOCKS.getValue(value.overBlock.biall.get(i - 1).getId()).asItem();
                     RefinedRecipe3.output(items.get(), 1)
                             .input(parentBlock, 8)
-                            .energy(0)
+                            .energy(energy*8)
                             .unlockedBy(getHasName(parentBlock), has(parentBlock))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_block_3/" + items.getId().getPath())));
 
                     parentItem = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i - 1).getId());
                     RefinedRecipe3.output(ingredient, 1)
                             .input(parentItem, 8)
-                            .energy(0)
+                            .energy(energy)
                             .unlockedBy(getHasName(parentItem), has(parentItem))
                             .save(writer, new ResourceLocation(QuantumMod.MOD_ID, ("refinement_item_3/" + ingredient)));
                 }

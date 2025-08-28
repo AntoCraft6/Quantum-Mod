@@ -1,7 +1,6 @@
 package net.antocraft.quantummod.recipe;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.antocraft.quantummod.QuantumMod;
 import net.minecraft.core.NonNullList;
@@ -96,7 +95,6 @@ public class QuantumMachineRecipe1 implements Recipe<Container> {
     public static class Serializer implements RecipeSerializer<QuantumMachineRecipe1> {
         public static final Serializer INSTANCE = new Serializer();
         public static final ResourceLocation ID = new ResourceLocation(QuantumMod.MOD_ID, "quantum_process_1");
-
 
         @Override
         public QuantumMachineRecipe1 fromJson(ResourceLocation id, JsonObject json) {

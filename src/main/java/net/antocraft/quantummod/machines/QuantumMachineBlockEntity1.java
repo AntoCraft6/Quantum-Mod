@@ -34,8 +34,6 @@ import java.util.Optional;
 
 public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
-        int craft = 0;
-
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();

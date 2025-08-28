@@ -52,7 +52,7 @@ public class QuantumMachineBlockEntity2 extends BlockEntity implements MenuProvi
 
     protected final ContainerData data;
     private int progress = 0;
-    private int maxProgress = 78;
+    private int maxProgress = 100;
 
     public QuantumMachineBlockEntity2(BlockPos pos, BlockState blockState) {
         super(QuantumMachineEntry.QUANTUM_MACHINE_BE_2.get(), pos, blockState);
@@ -60,8 +60,10 @@ public class QuantumMachineBlockEntity2 extends BlockEntity implements MenuProvi
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> QuantumMachineBlockEntity2.this.progress;
-                    case 1 -> QuantumMachineBlockEntity2.this.maxProgress;
+                    case 0 -> progress;
+                    case 1 -> maxProgress;
+                    case 2 -> energyStorage.getEnergyStored();
+                    case 3 -> energyStorage.getMaxEnergyStored();
                     default -> 0;
                 };
             }
@@ -69,14 +71,16 @@ public class QuantumMachineBlockEntity2 extends BlockEntity implements MenuProvi
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> QuantumMachineBlockEntity2.this.progress = value;
-                    case 1 -> QuantumMachineBlockEntity2.this.maxProgress = value;
+                    case 0 -> progress = value;
+                    case 1 -> maxProgress = value;
+                    case 2 -> energyStorage.getEnergyStored();
+                    case 3 -> energyStorage.getMaxEnergyStored();
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 4;
             }
         };
     }
@@ -226,7 +230,8 @@ public class QuantumMachineBlockEntity2 extends BlockEntity implements MenuProvi
         int energy = recipe.get().getEnegy();
 
         progress++;
-        energyStorage.extractEnergy(energy, false);
+        if (energy>0) energyStorage.extractEnergy(energy, false);
+        if (energy<0) energyStorage.receiveEnergy(-energy, false);
     }
 
     private void decreaseCraftingProgress() {
