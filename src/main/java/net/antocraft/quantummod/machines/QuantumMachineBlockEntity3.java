@@ -2,6 +2,7 @@ package net.antocraft.quantummod.machines;
 
 import net.antocraft.quantummod.recipe.QuantumMachineRecipe3;
 import net.antocraft.quantummod.screen.QuantumMachineMenu3;
+import net.antocraft.quantummod.util.ItemHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -26,14 +27,13 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
 public class QuantumMachineBlockEntity3 extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(2) {
+    private final ItemHandler itemHandler = new ItemHandler(2) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();

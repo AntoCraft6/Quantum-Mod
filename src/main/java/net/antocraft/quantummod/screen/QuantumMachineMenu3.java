@@ -2,6 +2,7 @@ package net.antocraft.quantummod.screen;
 
 import net.antocraft.quantummod.machines.QuantumMachineBlockEntity3;
 import net.antocraft.quantummod.machines.QuantumMachineEntry;
+import net.antocraft.quantummod.util.SlotHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class QuantumMachineMenu3 extends AbstractContainerMenu {
     public final QuantumMachineBlockEntity3 blockEntity;
@@ -29,8 +29,8 @@ public class QuantumMachineMenu3 extends AbstractContainerMenu {
         this.data = data;
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 10000, 10000));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 10000, 10000));
+            this.addSlot(new SlotHandler(iItemHandler, 0, 52, 36));
+            this.addSlot(new SlotHandler(iItemHandler, 1, 108, 36));
         });
 
         addDataSlots(data);

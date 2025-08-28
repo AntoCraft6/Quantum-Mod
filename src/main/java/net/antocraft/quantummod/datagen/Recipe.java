@@ -24,7 +24,7 @@ public class Recipe extends RecipeProvider implements IConditionBuilder {
     protected void buildRecipes(Consumer<FinishedRecipe> writer) {
         for (RefinedOverlay value : RefinedOverlay.values()) {
             int i = 0;
-            int energy = 1000; //TODO make configurable
+            int energy = 0; //TODO make configurable
             Item ingredient = ForgeRegistries.ITEMS.getValue(value.overItem.iall.get(i).getId());
             if (ingredient == null || ingredient == Items.AIR) {
                 QuantumMod.LOGGER.error("missing block during datagen: {}", ingredient);
