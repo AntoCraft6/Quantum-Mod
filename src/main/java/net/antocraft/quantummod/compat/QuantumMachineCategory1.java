@@ -60,7 +60,7 @@ public class QuantumMachineCategory1 implements IRecipeCategory<QuantumMachineRe
 
     @Override
     public void draw(QuantumMachineRecipe1 recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        int energy = recipe.getEnegy();
+        int energy = recipe.getEnergy();
         int time = 100; //TODO change to CONFIG
 
         guiGraphics.fill(15, 30, 25, 60, 0xFF555555);

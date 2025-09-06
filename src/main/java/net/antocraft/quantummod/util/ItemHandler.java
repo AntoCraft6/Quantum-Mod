@@ -21,6 +21,11 @@ public class ItemHandler extends ItemStackHandler {
         return super.insertItem(slot, stack, simulate);
     }
 
+    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate, boolean crafting) {
+        if (crafting) return super.extractItem(slot, amount, simulate);
+        return extractItem(slot, amount, simulate);
+    }
+
     @Override
     public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
         if (slot == 0) return ItemStack.EMPTY;

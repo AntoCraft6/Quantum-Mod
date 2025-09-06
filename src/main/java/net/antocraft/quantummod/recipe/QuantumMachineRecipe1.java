@@ -49,7 +49,7 @@ public class QuantumMachineRecipe1 implements Recipe<Container> {
         return inputSize;
     }
 
-    public int getEnegy() {
+    public int getEnergy() {
         return energy;
     }
 

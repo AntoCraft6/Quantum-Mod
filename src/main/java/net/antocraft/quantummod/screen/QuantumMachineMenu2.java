@@ -18,7 +18,7 @@ public class QuantumMachineMenu2 extends AbstractContainerMenu {
     public final ContainerData data;
 
     public QuantumMachineMenu2(int containerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(containerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
     }
 
     public QuantumMachineMenu2(int containerId, Inventory inv, BlockEntity entity, ContainerData data) {

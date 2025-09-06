@@ -1,5 +1,6 @@
 package net.antocraft.quantummod.machines;
 
+import net.antocraft.quantummod.Config;
 import net.antocraft.quantummod.recipe.QuantumMachineRecipe1;
 import net.antocraft.quantummod.screen.QuantumMachineMenu1;
 import net.antocraft.quantummod.util.ItemHandler;
@@ -45,7 +46,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
-    private final EnergyStorage energyStorage = new EnergyStorage(100000);
+    private final EnergyStorage energyStorage = new EnergyStorage(Config.quantumMachineBattery);
 
     private LazyOptional<IItemHandler> LazyItemHandler = LazyOptional.of(() -> itemHandler);
     private LazyOptional<EnergyStorage> LazyEnergyHandler = LazyOptional.of(() -> energyStorage);
@@ -178,7 +179,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
         ItemStack result = recipe.get().getResultItem(null);
         int inputSize = recipe.get().getInputSize();
 
-        this.itemHandler.extractItem(INPUT_SLOT, inputSize, false);
+        this.itemHandler.extractItem(INPUT_SLOT, inputSize, false, true);
 
         this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
                 this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
@@ -197,7 +198,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     private boolean hasEnergy() {
         Optional<QuantumMachineRecipe1> recipe = getCurrentRecipe();
-        int energy = recipe.get().getEnegy();
+        int energy = recipe.get().getEnergy();
 
         if (energy > 0) {
             return energyStorage.extractEnergy(energy, true) >= energy;
@@ -227,7 +228,7 @@ public class QuantumMachineBlockEntity1 extends BlockEntity implements MenuProvi
 
     private void increaseCraftingProgress() {
         Optional<QuantumMachineRecipe1> recipe = getCurrentRecipe();
-        int energy = recipe.get().getEnegy();
+        int energy = recipe.get().getEnergy();
 
         progress++;
         if (energy>0) energyStorage.extractEnergy(energy, false);
